@@ -28,8 +28,10 @@ public class AccueilActivity extends AppCompatActivity {
                         for(Contact contact : contacts)
                         {
                             SmsManager.getDefault().sendTextMessage(contact.getNumero(), null, message.getTitre() + " " + message.getContenu(), null, null);
-                            Historique histo = new Historique(contact,message);
-                            histo.save();
+                            //Toast.makeText(getApplicationContext(), contact.getNumero() +" "+message.getTitre() + " " + message.getContenu(),
+                            //        Toast.LENGTH_SHORT).show();
+                            //Historique histo = new Historique(contact,message);
+                            //histo.save();
                         }
                     }
                     else {
