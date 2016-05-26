@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HelpMe</string>
+    <string name="textView">Title</string>
+    <string name="btn_contact">Contact</string>
+    <string name="btn_historique">Histoy</string>
+    <string name="btn_valider">Validate</string>
+    <string name="textview2">Message</string>
+</resources>
