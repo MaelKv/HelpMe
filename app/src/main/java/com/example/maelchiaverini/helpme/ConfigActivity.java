@@ -37,15 +37,11 @@ public class ConfigActivity extends AppCompatActivity {
 
                 if (msg_connu == null) {
                     msg_connu = new Message(titre, msg, 1);
-                    Toast.makeText(getApplicationContext(), msg + " " + titre ,
-                            Toast.LENGTH_SHORT).show();
                     msg_connu.save();
                 }
                 else {
                     msg_connu.setContenu(msg);
                     msg_connu.setTitre(titre);
-                    Toast.makeText(getApplicationContext(), msg + " " + titre ,
-                            Toast.LENGTH_SHORT).show();
                     msg_connu.save();
                 }
                 Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
