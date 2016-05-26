@@ -41,10 +41,10 @@ public class AccueilActivity extends AppCompatActivity {
             }
         });
         //Pour vider la liste des contacts
-        //List<Contact> conts = Contact.listAll(Contact.class);
-        //Contact.deleteAll(Contact.class);
-        //List<Message> msg = Message.listAll(Message.class);
-        //Message.deleteAll(Message.class);
+        /*List<Contact> conts = Contact.listAll(Contact.class);
+        Contact.deleteAll(Contact.class);
+        List<Message> msg = Message.listAll(Message.class);
+        Message.deleteAll(Message.class);*/
 
         ImageButton ConfigBtn = (ImageButton) findViewById(R.id.btn_conf);
         ConfigBtn.setOnClickListener(new View.OnClickListener(){
