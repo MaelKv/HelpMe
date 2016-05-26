@@ -10,25 +10,37 @@ import android.widget.Toast;
 
 public class ConfigActivity extends AppCompatActivity {
 
+    EditText txtTitre = (EditText) findViewById(R.id.txt_titre);
+    EditText txtMsg = (EditText) findViewById(R.id.txt_titre);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
+        Message message = Message.findById(Message.class,1);
+        if(message!=null){
+            txtTitre.setText(message.getTitre());
+            txtMsg.setText(message.getContenu());
+        }
 
         Button valider = (Button) findViewById(R.id.btn_valider);
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText txtTitre = (EditText) findViewById(R.id.txt_titre);
+
                 String titre = txtTitre.getText().toString();
-
-                EditText txtMsg = (EditText) findViewById(R.id.txt_titre);
                 String message = txtMsg.getText().toString();
+                Message msg_connu = Message.findById(Message.class, 1);
 
-                Message message1 = new Message(titre, message, 1);
-                message1.save();
+                if (msg_connu == null) {
+                    msg_connu = new Message(titre, message, 1);
+                    msg_connu.save();
+                } else {
+                    msg_connu.setContenu(message);
+                    msg_connu.setTitre(titre);
+                    msg_connu.save();
+                }
 
-                Toast.makeText(getApplicationContext(), "Message configuré ! test id : " + message1.getTitre(),
+                Toast.makeText(getApplicationContext(), "Message configuré !",
                         Toast.LENGTH_SHORT).show();
 
                 Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
@@ -37,18 +49,18 @@ public class ConfigActivity extends AppCompatActivity {
         });
 
         Button conta = (Button) findViewById(R.id.btn_contact);
-        conta.setOnClickListener(new View.OnClickListener(){
+        conta.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent secondeActivite = new Intent(ConfigActivity.this, ContactActivity.class);
                 startActivity(secondeActivite);
             }
         });
 
         Button histor = (Button) findViewById(R.id.btn_historique);
-        histor.setOnClickListener(new View.OnClickListener(){
+        histor.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "bouton historique !",
                         Toast.LENGTH_SHORT).show();
             }
