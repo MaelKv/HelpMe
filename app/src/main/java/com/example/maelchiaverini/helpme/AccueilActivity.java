@@ -28,6 +28,8 @@ public class AccueilActivity extends AppCompatActivity {
                         for(Contact contact : contacts)
                         {
                             SmsManager.getDefault().sendTextMessage(contact.getNumero(), null, message.getTitre() + " " + message.getContenu(), null, null);
+                            Historique histo = new Historique(contact,message);
+                            histo.save();
                         }
                     }
                     else {
