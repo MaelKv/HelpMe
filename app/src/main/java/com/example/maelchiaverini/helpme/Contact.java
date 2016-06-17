@@ -1,4 +1,4 @@
-package com.example.maelchiaverini.helpme.Classes;
+package com.example.maelchiaverini.helpme;
 
 import android.provider.ContactsContract;
 

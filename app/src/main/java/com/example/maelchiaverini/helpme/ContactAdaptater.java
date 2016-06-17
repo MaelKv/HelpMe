@@ -1,4 +1,4 @@
-package com.example.maelchiaverini.helpme.Adapter;
+package com.example.maelchiaverini.helpme;
 
 import android.content.Context;
 import android.view.View;
@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
-import com.example.maelchiaverini.helpme.Classes.Contact;
-import com.example.maelchiaverini.helpme.R;
 
 import java.util.List;
 
@@ -42,7 +39,7 @@ public class ContactAdaptater extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View v = View.inflate(mContext, R.layout.activity_item_contact, null);
+        View v = View.inflate(mContext,R.layout.activity_item_contact, null);
         //TextView
         TextView nom_tv = (TextView) v.findViewById(R.id.tv_nom);
         TextView num_tv = (TextView) v.findViewById(R.id.tv_numero);
