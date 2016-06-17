@@ -1,4 +1,4 @@
-package com.example.maelchiaverini.helpme;
+package com.example.maelchiaverini.helpme.Classes;
 
 import com.orm.SugarRecord;
 
@@ -31,5 +31,5 @@ public class Message extends SugarRecord {
         this.titre = titre;
     }
 
-    public Long geId() { return this.id; }
+    public Long getId() { return this.id; }
 }

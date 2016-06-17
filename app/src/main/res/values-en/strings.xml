@@ -6,4 +6,5 @@
     <string name="btn_historique">Histoy</string>
     <string name="btn_valider">Validate</string>
     <string name="textview2">Message</string>
+    <string name="textViexDet">Contacts :</string>
 </resources>
