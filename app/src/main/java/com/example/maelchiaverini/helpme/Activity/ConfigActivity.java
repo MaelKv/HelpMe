@@ -19,16 +19,14 @@ public class ConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
+        EditText txtTitre = (EditText) findViewById(R.id.txt_titre);
+        EditText txtMsg = (EditText) findViewById(R.id.txt_msg);
+
         try{
             Message message = Message.findById(Message.class,1);
-            if(message!=null){
-                EditText txtTitre = (EditText) findViewById(R.id.txt_titre);
-                EditText txtMsg = (EditText) findViewById(R.id.txt_msg);
-                txtTitre.setText(message.getTitre());
-                txtMsg.setText(message.getContenu());
-            }
-        }
-        catch (SecurityException a){}
+            txtTitre.setText(message.getTitre());
+            txtMsg.setText(message.getContenu());
+        } catch (SQLException a){}
 
         Button valider = (Button) findViewById(R.id.btn_valider);
         valider.setOnClickListener(new View.OnClickListener() {
@@ -39,24 +37,25 @@ public class ConfigActivity extends AppCompatActivity {
 
                 String titre = txtTitre.getText().toString();
                 String msg = txtMsg.getText().toString();
-
-                try{
-                    Message msg_connu = Message.findById(Message.class, 1);
-
-                    if (msg_connu == null) {
-                        msg_connu = new Message(titre, msg, 1);
-                        msg_connu.save();
-                    }
-                    else {
+                if(titre != "" && msg != "") {
+                    try {
+                        Message msg_connu = Message.findById(Message.class, 1);
                         msg_connu.setContenu(msg);
                         msg_connu.setTitre(titre);
+                        msg_connu.setId((long) 1);
+                        msg_connu.save();
+                    } catch (SQLException E) {
+                        Message msg_connu = new Message(titre,msg,1);
                         msg_connu.save();
                     }
-                }
-                catch (SQLException E) {}
 
-                Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
-                startActivity(secondeActivite);
+                    Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
+                    startActivity(secondeActivite);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Saisie incorrect",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

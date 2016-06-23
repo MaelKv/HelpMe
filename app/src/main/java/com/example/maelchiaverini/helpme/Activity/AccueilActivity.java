@@ -26,10 +26,11 @@ public class AccueilActivity extends AppCompatActivity {
         AlerteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Message message = Message.findById(Message.class,1);
-                if (message!=null) {
-                    List<Contact> contacts = Contact.listAll(Contact.class);
-                    if(contacts.size() > 0) {
+
+                try{
+                    Message message = Message.findById(Message.class,1);
+                    try{
+                        List<Contact> contacts = Contact.listAll(Contact.class);
                         for(Contact contact : contacts)
                         {
                             SmsManager.getDefault().sendTextMessage(contact.getNumero(), null, message.getTitre() + " " + message.getContenu(), null, null);
@@ -39,11 +40,11 @@ public class AccueilActivity extends AppCompatActivity {
                             //histo.save();
                         }
                     }
-                    else {
+                    catch (android.database.SQLException e){
                         Toast.makeText(getApplicationContext(), "Vous devez configurer au moins un contact",
                                 Toast.LENGTH_SHORT).show();
                     }
-                } else {
+                } catch (android.database.SQLException e){
                     Toast.makeText(getApplicationContext(), "Vous devez configurer un message",
                             Toast.LENGTH_SHORT).show();
                 }

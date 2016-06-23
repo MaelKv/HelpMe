@@ -1,8 +1,11 @@
 package com.example.maelchiaverini.helpme.Activity;
 
+import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.maelchiaverini.helpme.Classes.Historique;
@@ -31,5 +34,15 @@ public class HistoriqueActivity extends AppCompatActivity {
             histoListView.setAdapter(adaptater);
         }
         catch (SQLException e) {}
+
+        ImageButton imgBtn = (ImageButton) findViewById(R.id.imgbtnReturnHisto);
+        imgBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent secondeActivite = new Intent(HistoriqueActivity.this, ConfigActivity.class);
+                startActivity(secondeActivite);
+            }
+        });
     }
 }
