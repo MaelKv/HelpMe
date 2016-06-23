@@ -1,18 +1,21 @@
-package com.example.maelchiaverini.helpme;
+package com.example.maelchiaverini.helpme.Activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.maelchiaverini.helpme.Classes.Contact;
+import com.example.maelchiaverini.helpme.Adapter.ContactAdaptater;
+import com.example.maelchiaverini.helpme.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +32,22 @@ public class ContactActivity extends AppCompatActivity {
 
         contactListView = (ListView) findViewById(R.id.contact_list);
         contactList = new ArrayList<>();
-        contactList = Contact.listAll(Contact.class);
+        try{
+            contactList = Contact.listAll(Contact.class);
 
-        adaptater = new ContactAdaptater(getApplicationContext(), contactList);
-        contactListView.setAdapter(adaptater);
+            adaptater = new ContactAdaptater(getApplicationContext(), contactList);
+            contactListView.setAdapter(adaptater);
 
-        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "test = "+view.getTag(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getApplicationContext(), "test = "+view.getTag(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        catch (SQLException e) {}
+
 
         ImageButton btn_cont = (ImageButton) findViewById(R.id.imageButton);
         btn_cont.setOnClickListener(new View.OnClickListener(){

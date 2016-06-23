@@ -1,4 +1,4 @@
-package com.example.maelchiaverini.helpme;
+package com.example.maelchiaverini.helpme.Classes;
 
 import com.orm.SugarRecord;
 

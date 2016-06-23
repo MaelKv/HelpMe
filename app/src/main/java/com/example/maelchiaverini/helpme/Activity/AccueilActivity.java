@@ -1,4 +1,4 @@
-package com.example.maelchiaverini.helpme;
+package com.example.maelchiaverini.helpme.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.maelchiaverini.helpme.Classes.Contact;
+import com.example.maelchiaverini.helpme.Classes.Message;
+import com.example.maelchiaverini.helpme.R;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public class AccueilActivity extends AppCompatActivity {
