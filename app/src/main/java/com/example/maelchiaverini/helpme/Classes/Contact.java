@@ -11,7 +11,6 @@ public class Contact extends SugarRecord {
     String nom;
     String numero;
     Boolean valid;
-    Long id;
 
     public Contact() {}
 
@@ -43,10 +42,5 @@ public class Contact extends SugarRecord {
 
     public void setValid(Boolean valid) {
         this.valid = valid;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
     }
 }

@@ -18,11 +18,11 @@
         android:background="@drawable/aalerte" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/btn_conf"
+        android:background="@drawable/configuration"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/config" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

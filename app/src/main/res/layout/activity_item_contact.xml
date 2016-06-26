@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/cb_valid"
         android:checked="false"
-        android:layout_marginEnd="69dp"
+        android:buttonTint="#000"
         android:layout_alignBottom="@+id/tv_numero"
-        android:layout_alignParentEnd="true"
-        android:buttonTint="#000" />
+        android:layout_toEndOf="@+id/tv_numero"
+        android:layout_marginStart="100dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,4 +36,13 @@
         android:layout_below="@+id/tv_nom"
         android:layout_alignStart="@+id/tv_nom"
         android:layout_marginStart="30dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deletCont"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/places_ic_clear"
+        android:layout_alignTop="@+id/cb_valid"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

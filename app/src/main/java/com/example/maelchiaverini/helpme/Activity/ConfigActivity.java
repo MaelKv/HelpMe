@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.maelchiaverini.helpme.Classes.Message;
@@ -28,7 +29,7 @@ public class ConfigActivity extends AppCompatActivity {
             txtMsg.setText(message.getContenu());
         } catch (SQLException a){}
 
-        Button valider = (Button) findViewById(R.id.btn_valider);
+        ImageButton valider = (ImageButton) findViewById(R.id.btn_valider);
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +60,7 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        Button conta = (Button) findViewById(R.id.btn_contact);
+        ImageButton conta = (ImageButton) findViewById(R.id.btn_contact);
         conta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +69,7 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        Button histor = (Button) findViewById(R.id.btn_historique);
+        ImageButton histor = (ImageButton) findViewById(R.id.btn_historique);
         histor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

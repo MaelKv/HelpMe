@@ -1,5 +1,7 @@
 package com.example.maelchiaverini.helpme.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +44,26 @@ public class HistoriqueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent secondeActivite = new Intent(HistoriqueActivity.this, ConfigActivity.class);
                 startActivity(secondeActivite);
+            }
+        });
+
+        ImageButton delBtn = (ImageButton) findViewById(R.id.imgbtn_deleteHisto);
+        imgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HistoriqueActivity.this, R.style.AppCompatAlertDialogStyle);
+                builder.setTitle("Suppression");
+                builder.setMessage("Etes vous sur de vouloir supprimer l'historique ?");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Historique.deleteAll(Historique.class);
+                                Intent secondeActivite = new Intent(HistoriqueActivity.this, HistoriqueActivity.class);
+                                startActivity(secondeActivite);
+                            }
+                        });
+                builder.setNegativeButton("Non", null);
+                builder.show();
             }
         });
     }
