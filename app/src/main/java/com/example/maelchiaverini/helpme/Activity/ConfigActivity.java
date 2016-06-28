@@ -2,6 +2,7 @@ package com.example.maelchiaverini.helpme.Activity;
 
 import android.content.Intent;
 import android.database.SQLException;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 
 import com.example.maelchiaverini.helpme.Classes.Message;
 import com.example.maelchiaverini.helpme.R;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 public class ConfigActivity extends AppCompatActivity {
 
@@ -23,12 +27,11 @@ public class ConfigActivity extends AppCompatActivity {
         EditText txtTitre = (EditText) findViewById(R.id.txt_titre);
         EditText txtMsg = (EditText) findViewById(R.id.txt_msg);
 
-        try{
-            Message message = Message.findById(Message.class,1);
+        Message message = Message.findById(Message.class, 1);
+        if (message != null) {
             txtTitre.setText(message.getTitre());
             txtMsg.setText(message.getContenu());
-        } catch (SQLException a){}
-
+        }
         ImageButton valider = (ImageButton) findViewById(R.id.btn_valider);
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,22 +41,25 @@ public class ConfigActivity extends AppCompatActivity {
 
                 String titre = txtTitre.getText().toString();
                 String msg = txtMsg.getText().toString();
-                if(titre != "" && msg != "") {
-                    try {
-                        Message msg_connu = Message.findById(Message.class, 1);
+
+                if (titre != "" && msg != "") {
+                    Message msg_connu = Message.findById(Message.class, 1);
+                    if (msg_connu != null) {
                         msg_connu.setContenu(msg);
                         msg_connu.setTitre(titre);
-                        msg_connu.setId((long) 1);
+                        Toast.makeText(getApplicationContext(), "Connue " + msg_connu.getId(),
+                                Toast.LENGTH_SHORT).show();
                         msg_connu.save();
-                    } catch (SQLException E) {
-                        Message msg_connu = new Message(titre,msg,1);
+                    } else {
+                        msg_connu = new Message(titre, msg, 1);
+                        Toast.makeText(getApplicationContext(), "Inconnue " + msg_connu.getId(),
+                                Toast.LENGTH_SHORT).show();
                         msg_connu.save();
                     }
 
                     Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
                     startActivity(secondeActivite);
-                }
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Saisie incorrect",
                             Toast.LENGTH_SHORT).show();
                 }

@@ -11,34 +11,44 @@ import java.util.List;
  */
 public class Historique extends SugarRecord {
     List<Contact> contacts;
-    Message msg;
+    String titre;
+    String message;
     Date date;
     LatLng latlng;
 
     public Historique(){}
 
-    public Historique(List<Contact> contacts, Message msg, LatLng latlng)
+    public Historique(List<Contact> contacts, String titre, String msg, LatLng latlng)
     {
         this.contacts = contacts;
-        this.msg = msg;
+        this.titre = titre;
+        this.message = msg;
         this.date = new Date();
         this.latlng = latlng;
     }
 
-    public List<Contact> getContact() {
+    public List<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContact(List<Contact> contacts) {
+    public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public Message getMsg() {
-        return msg;
+    public String getTitre() {
+        return titre;
     }
 
-    public void setMsg(Message msg) {
-        this.msg = msg;
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Date getDate() {

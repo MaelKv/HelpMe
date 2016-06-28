@@ -1,5 +1,7 @@
 package com.example.maelchiaverini.helpme.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -32,22 +34,19 @@ public class ContactActivity extends AppCompatActivity {
 
         contactListView = (ListView) findViewById(R.id.contact_list);
         contactList = new ArrayList<>();
-        try{
-            contactList = Contact.listAll(Contact.class);
 
-            adaptater = new ContactAdaptater(getApplicationContext(), contactList);
-            contactListView.setAdapter(adaptater);
+        contactList = Contact.listAll(Contact.class);
 
-            contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adaptater = new ContactAdaptater(getApplicationContext(), contactList);
+        contactListView.setAdapter(adaptater);
 
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getApplicationContext(), "test = "+view.getTag(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        catch (SQLException e) {}
+        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "test = "+view.getTag(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
         ImageButton btn_cont = (ImageButton) findViewById(R.id.imageButton);
         btn_cont.setOnClickListener(new View.OnClickListener(){
@@ -67,27 +66,57 @@ public class ContactActivity extends AppCompatActivity {
                 startActivity(returnConfig);
             }
         });
+
+        ImageButton imgBtn = (ImageButton) findViewById(R.id.deletCont);
+        imgBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.AppCompatAlertDialogStyle);
+                builder.setTitle("Suppression");
+                builder.setMessage("Etes vous sur de vouloir supprimer les contacts ?");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Contact.deleteAll(Contact.class);
+                        Intent secondeActivite = new Intent(ContactActivity.this, ContactActivity.class);
+                        startActivity(secondeActivite);
+                    }
+                });
+                builder.setNegativeButton("Non", null);
+                builder.show();
+            }
+        });
     }
 
     public void onActivityResult(int reqCode, int resultCode, Intent data)
     {
+        if (data == null) {
+            Toast.makeText(ContactActivity.this, "Aucun contact selectionné", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
             String contactName = null;
             String contactNumber = null;
             String contactId = null;
             Uri contactData = data.getData();
             Cursor c = getContentResolver().query(contactData, null, null, null, null);
-            c.moveToFirst();
 
+            c.moveToFirst();
             int column1 = c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             int column2 = c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
 
             contactName = c.getString(column2);
             contactNumber = c.getString(column1);
 
-            Contact contact = new Contact(contactName, contactNumber);
-            contact.save();
-
+            if (contactName != null) {
+                Contact contact = new Contact(contactName, contactNumber);
+                if(Contact.listAll(Contact.class).contains(contact) == false) {
+                    contact.save();
+                }
+                else{Toast.makeText(ContactActivity.this, "Le contact est deja enregistré", Toast.LENGTH_SHORT).show();}
+            }
             Intent returnConfig = new Intent(ContactActivity.this, ContactActivity.class);
             startActivity(returnConfig);
+        }
     }
 }

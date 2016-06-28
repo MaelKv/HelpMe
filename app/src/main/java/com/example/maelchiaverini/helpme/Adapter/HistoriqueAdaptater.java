@@ -2,10 +2,12 @@ package com.example.maelchiaverini.helpme.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.maelchiaverini.helpme.Activity.DetailHistoriqueActivity;
@@ -39,23 +41,13 @@ public class HistoriqueAdaptater extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View v = View.inflate(mContext, R.layout.activity_item_historique, null);
         //TextView
-        TextView nom_tv = (TextView) v.findViewById(R.id.tv_nom);
-        TextView num_tv = (TextView) v.findViewById(R.id.tv_numero);
-        CheckBox valid_cb = (CheckBox) v.findViewById(R.id.cb_valid);
+        TextView txt_historique_message = (TextView) v.findViewById(R.id.tvTitreMessage);
+        TextView txt_historique_date = (TextView) v.findViewById(R.id.tvDateHisto);
         //SET
-        nom_tv.setText(histolist.get(position).getMsg().getTitre());
-        num_tv.setText(histolist.get(position).getDate().toString());
-        //Click checkbox
-        valid_cb.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent detailHisto = new Intent(mContext.getApplicationContext(), DetailHistoriqueActivity.class);
-                detailHisto.putExtra(HistoriqueAdaptater.IdHistorique, histolist.get(position).getId());
-                mContext.getApplicationContext().startActivity(detailHisto);
-            }
-        });
-
+        if(histolist.get(position) != null) {
+            txt_historique_message.setText(histolist.get(position).getMessage());
+            txt_historique_date.setText(histolist.get(position).getDate().toString());
+        }
         v.setTag(histolist.get(position).getId());
 
         return v;

@@ -7,8 +7,10 @@ import android.database.SQLException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.maelchiaverini.helpme.Classes.Historique;
 import com.example.maelchiaverini.helpme.Adapter.HistoriqueAdaptater;
@@ -28,14 +30,22 @@ public class HistoriqueActivity extends AppCompatActivity {
         setContentView(R.layout.activity_historique);
 
         histoListView = (ListView) findViewById(R.id.histo_list);
-        try{
-            histoList = new ArrayList<>();
-            histoList = Historique.listAll(Historique.class);
+        histoList = new ArrayList<>();
+        histoList = Historique.listAll(Historique.class);
 
-            adaptater = new HistoriqueAdaptater(getApplicationContext(), histoList);
-            histoListView.setAdapter(adaptater);
-        }
-        catch (SQLException e) {}
+        adaptater = new HistoriqueAdaptater(getApplicationContext(), histoList);
+        histoListView.setAdapter(adaptater);
+
+
+
+        histoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent detailHisto = new Intent(HistoriqueActivity.this, DetailHistoriqueActivity.class);
+                detailHisto.putExtra(HistoriqueAdaptater.IdHistorique, histoList.get(position).getId());
+                startActivity(detailHisto);
+            }
+        });
 
         ImageButton imgBtn = (ImageButton) findViewById(R.id.imgbtnReturnHisto);
         imgBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +58,7 @@ public class HistoriqueActivity extends AppCompatActivity {
         });
 
         ImageButton delBtn = (ImageButton) findViewById(R.id.imgbtn_deleteHisto);
-        imgBtn.setOnClickListener(new View.OnClickListener() {
+        delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HistoriqueActivity.this, R.style.AppCompatAlertDialogStyle);

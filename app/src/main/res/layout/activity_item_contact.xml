@@ -17,14 +17,14 @@
         android:layout_marginTop="10dp" />
 
     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/cb_valid"
         android:checked="false"
         android:buttonTint="#000"
+        android:layout_marginEnd="66dp"
         android:layout_alignBottom="@+id/tv_numero"
-        android:layout_toEndOf="@+id/tv_numero"
-        android:layout_marginStart="100dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,13 +36,4 @@
         android:layout_below="@+id/tv_nom"
         android:layout_alignStart="@+id/tv_nom"
         android:layout_marginStart="30dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/deletCont"
-        android:layout_marginEnd="35dp"
-        android:background="@drawable/places_ic_clear"
-        android:layout_alignTop="@+id/cb_valid"
-        android:layout_alignParentEnd="true" />
 </RelativeLayout>

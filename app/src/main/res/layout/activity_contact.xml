@@ -33,5 +33,13 @@
         android:background="@drawable/retour"
         android:layout_alignParentBottom="true" />
 
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/deletCont"
+        android:background="@drawable/corbeille"
+        android:layout_alignBottom="@+id/imgbtnReturn"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

@@ -7,20 +7,20 @@ import com.orm.SugarRecord;
  */
 public class Message extends SugarRecord {
     String titre;
-    String msg_contenu;
+    String contenu;
     Long id;
 
     public Message(){}
 
     public Message(String titre, String contenu, long id){
         this.titre = titre;
-        this.msg_contenu = contenu;
+        this.contenu = contenu;
         this.id = id;
     }
-    public String getContenu() { return this.msg_contenu; }
+    public String getContenu() { return this.contenu; }
 
     public void setContenu(String contenu) {
-        this.msg_contenu = contenu;
+        this.contenu = contenu;
     }
 
     public String getTitre() {
@@ -31,5 +31,5 @@ public class Message extends SugarRecord {
         this.titre = titre;
     }
 
-    public Long geId() { return this.id; }
+    public Long getId() { return this.id; }
 }

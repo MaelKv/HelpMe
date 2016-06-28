@@ -54,7 +54,6 @@ public class ContactAdaptater extends BaseAdapter {
         TextView nom_tv = (TextView) v.findViewById(R.id.tv_nom);
         TextView num_tv = (TextView) v.findViewById(R.id.tv_numero);
         CheckBox valid_cb = (CheckBox) v.findViewById(R.id.cb_valid);
-        ImageButton imgBtn = (ImageButton) v.findViewById(R.id.deletCont);
         //SET
         valid_cb.setChecked(contactList.get(position).getValid());
         nom_tv.setText(contactList.get(position).getNom());
@@ -70,27 +69,6 @@ public class ContactAdaptater extends BaseAdapter {
                 contactList.get(position).save();
             }
         });
-        // Suppression d'un contact
-        imgBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
-                builder.setTitle("Suppression");
-                builder.setMessage("Etes vous sur de vouloir supprimer le contact " + contactList.get(position).getNom() + " ?");
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        contactList.get(position).delete();
-                        contactList.get(position).save();
-                        Intent secondeActivite = new Intent(mContext, ContactActivity.class);
-                        mContext.startActivity(secondeActivite);
-                    }
-                });
-                builder.setNegativeButton("Non", null);
-                builder.show();
-            }
-        });
-
         v.setTag(contactList.get(position).getId());
 
         return v;

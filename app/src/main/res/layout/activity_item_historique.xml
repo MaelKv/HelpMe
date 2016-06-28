@@ -25,4 +25,5 @@
         android:textColor="#666666"
         android:layout_below="@+id/tvTitreMessage"
         android:layout_toEndOf="@+id/tvTitreMessage" />
+
 </RelativeLayout>

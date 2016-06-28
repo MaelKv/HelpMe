@@ -1,6 +1,7 @@
 package com.example.maelchiaverini.helpme.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,47 +20,69 @@ import com.example.maelchiaverini.helpme.Classes.Historique;
 import com.example.maelchiaverini.helpme.Classes.Message;
 import com.example.maelchiaverini.helpme.R;
 import com.google.android.gms.maps.model.LatLng;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class AccueilActivity extends AppCompatActivity {
 
+    private Activity activity;
+    private final int MY_PERMISSIONS=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
+        activity = this;
+
         ImageButton AlerteBtn = (ImageButton) findViewById(R.id.btn_alerte);
         AlerteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    Message message = Message.findById(Message.class,1);
-                    try{
-                        if (ActivityCompat.checkSelfPermission(AccueilActivity.this , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                                && ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-
-                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        LatLng newLL = new LatLng(location.getLatitude(), location.getLongitude());
-                        List<Contact> contacts = Contact.listAll(Contact.class);
-                        for(Contact contact : contacts)
-                        {
-                            //SmsManager.getDefault().sendTextMessage(contact.getNumero(), null, message.getTitre() + " " + message.getContenu(), null, null);
-                            Toast.makeText(getApplicationContext(), contact.getNumero() +" "+message.getTitre() + " " + message.getContenu(),
-                                    Toast.LENGTH_SHORT).show();
-                            Historique histo = new Historique((List<Contact>) contact,message,newLL);
-                            histo.save();
-                        }
+                Message message = Message.findById(Message.class, 1);
+                if (message != null) {
+                    if (ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        /*Toast.makeText(getApplicationContext(), "Permission",
+                                Toast.LENGTH_SHORT).show();*/
+                        ActivityCompat.requestPermissions(activity, new String[]{
+                                android.Manifest.permission.READ_CONTACTS,
+                                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                android.Manifest.permission.CALL_PHONE,
+                                android.Manifest.permission.VIBRATE,
+                                android.Manifest.permission.INTERNET,
+                                android.Manifest.permission.SEND_SMS
+                        }, MY_PERMISSIONS);
+                        return;
                     }
-                    catch (android.database.SQLException e){
+                    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    LatLng newLL = new LatLng(0,0);
+                    if(location != null) {
+                        newLL = new LatLng(location.getLatitude(), location.getLongitude());
+                    }
+                    List<Contact> contacts = Select.from(Contact.class).where(Condition.prop("valid").eq(true)).list(); //Contact.find(Contact.class, "valid = ?","true");// listAll(Contact.class);
+                    if (contacts.isEmpty()) {
+                        for (Contact contact : contacts) {
+                            //SmsManager.getDefault().sendTextMessage(contact.getNumero(), null, message.getTitre() + " " + message.getContenu(), null, null);
+                            Toast.makeText(getApplicationContext(), contact.getNom(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        Historique histo = new Historique(contacts, message.getTitre(),message.getContenu(), newLL);
+                        histo.save();
+                        Toast.makeText(getApplicationContext(), "Message envoyé !",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
                         Toast.makeText(getApplicationContext(), "Vous devez configurer au moins un contact",
                                 Toast.LENGTH_SHORT).show();
                     }
-                } catch (android.database.SQLException e){
+                } else {
                     Toast.makeText(getApplicationContext(), "Vous devez configurer un message",
                             Toast.LENGTH_SHORT).show();
                 }
