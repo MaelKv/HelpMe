@@ -2,7 +2,9 @@ package com.example.maelchiaverini.helpme.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -24,6 +26,7 @@ import com.orm.query.Condition;
 import com.orm.query.Select;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccueilActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class AccueilActivity extends AppCompatActivity {
         activity = this;
 
         ImageButton AlerteBtn = (ImageButton) findViewById(R.id.btn_alerte);
+        assert AlerteBtn != null;
         AlerteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,8 +50,6 @@ public class AccueilActivity extends AppCompatActivity {
                 if (message != null) {
                     if (ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                             && ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        /*Toast.makeText(getApplicationContext(), "Permission",
-                                Toast.LENGTH_SHORT).show();*/
                         ActivityCompat.requestPermissions(activity, new String[]{
                                 android.Manifest.permission.READ_CONTACTS,
                                 android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -63,18 +65,25 @@ public class AccueilActivity extends AppCompatActivity {
                     }
                     LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    LatLng newLL = new LatLng(0,0);
+                    double latitude = 0,longitude = 0;
                     if(location != null) {
-                        newLL = new LatLng(location.getLatitude(), location.getLongitude());
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
                     }
-                    List<Contact> contacts = Select.from(Contact.class).where(Condition.prop("valid").eq(true)).list(); //Contact.find(Contact.class, "valid = ?","true");// listAll(Contact.class);
-                    if (contacts.isEmpty()) {
+                    List<Contact> contacts = Contact.listAll(Contact.class);
+                    String test = "bla bla " + !contacts.isEmpty();
+                    if (!contacts.isEmpty()) {
+                        List<String> listContact = new ArrayList<String>();
+                        String msg = String.format("%1$s\n%2$s\nhttps://www.google.fr/maps/@%3$s,%4$s,14z !", message.getTitre(), message.getContenu(), latitude, longitude);
                         for (Contact contact : contacts) {
-                            //SmsManager.getDefault().sendTextMessage(contact.getNumero(), null, message.getTitre() + " " + message.getContenu(), null, null);
-                            Toast.makeText(getApplicationContext(), contact.getNom(),
-                                    Toast.LENGTH_SHORT).show();
+                            if(contact.getValid()) {
+                                SmsManager.getDefault().sendTextMessage(contact.getNumero(), null,msg, null, null);
+                                listContact.add(contact.getNom() + " - " + contact.getNumero());
+                                Toast.makeText(getApplicationContext(), contact.getNom(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        Historique histo = new Historique(contacts, message.getTitre(),message.getContenu(), newLL);
+                        Historique histo = new Historique(listContact, message.getTitre(),message.getContenu(), latitude,longitude);
                         histo.save();
                         Toast.makeText(getApplicationContext(), "Message envoyé !",
                                 Toast.LENGTH_SHORT).show();
@@ -88,18 +97,26 @@ public class AccueilActivity extends AppCompatActivity {
                 }
             }
         });
-        //Pour vider la liste des contacts
-        /*List<Contact> conts = Contact.listAll(Contact.class);
-        Contact.deleteAll(Contact.class);
-        List<Message> msg = Message.listAll(Message.class);
-        Message.deleteAll(Message.class);*/
 
         ImageButton ConfigBtn = (ImageButton) findViewById(R.id.btn_conf);
+        assert ConfigBtn != null;
         ConfigBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent secondeActivite = new Intent(AccueilActivity.this, ConfigActivity.class);
                 startActivity(secondeActivite);
+            }
+        });
+
+        ImageButton HelpBtn = (ImageButton) findViewById(R.id.btn_help);
+        HelpBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext(), R.style.AppCompatAlertDialogStyle);
+                builder.setTitle("Aide");
+                builder.setMessage("Cliquer sur le bouton de configuration en bas à droite, pour configurer votre message ainsi que la liste des contacts \nVous pourrez également consulter l'historique.");
+                builder.setNegativeButton("Ok", null);
+                builder.show();
             }
         });
     }

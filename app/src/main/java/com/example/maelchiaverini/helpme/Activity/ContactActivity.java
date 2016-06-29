@@ -68,6 +68,7 @@ public class ContactActivity extends AppCompatActivity {
         });
 
         ImageButton imgBtn = (ImageButton) findViewById(R.id.deletCont);
+        assert imgBtn != null;
         imgBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

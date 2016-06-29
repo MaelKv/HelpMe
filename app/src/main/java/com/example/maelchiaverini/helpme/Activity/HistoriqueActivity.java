@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.maelchiaverini.helpme.Classes.Historique;
 import com.example.maelchiaverini.helpme.Adapter.HistoriqueAdaptater;
 import com.example.maelchiaverini.helpme.R;
+import com.orm.query.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class HistoriqueActivity extends AppCompatActivity {
     private HistoriqueAdaptater adaptater;
     private List<Historique> histoList;
 
+    public static Long idH = Long.valueOf(0);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +34,20 @@ public class HistoriqueActivity extends AppCompatActivity {
 
         histoListView = (ListView) findViewById(R.id.histo_list);
         histoList = new ArrayList<>();
-        histoList = Historique.listAll(Historique.class);
+        histoList = Select.from(Historique.class)
+                .orderBy("date desc")
+                .list();
 
         adaptater = new HistoriqueAdaptater(getApplicationContext(), histoList);
         histoListView.setAdapter(adaptater);
 
-
-
         histoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent detailHisto = new Intent(HistoriqueActivity.this, DetailHistoriqueActivity.class);
-                detailHisto.putExtra(HistoriqueAdaptater.IdHistorique, histoList.get(position).getId());
-                startActivity(detailHisto);
+                Intent secondeActivite = new Intent(HistoriqueActivity.this, DetailHistoriqueActivity.class);
+                idH = histoList.get(position).getId();
+                startActivity(secondeActivite);
+
             }
         });
 

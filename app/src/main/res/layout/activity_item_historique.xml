@@ -24,6 +24,6 @@
         android:id="@+id/tvDateHisto"
         android:textColor="#666666"
         android:layout_below="@+id/tvTitreMessage"
-        android:layout_toEndOf="@+id/tvTitreMessage" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

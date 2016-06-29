@@ -17,6 +17,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Objects;
+
 public class ConfigActivity extends AppCompatActivity {
 
     @Override
@@ -33,6 +35,7 @@ public class ConfigActivity extends AppCompatActivity {
             txtMsg.setText(message.getContenu());
         }
         ImageButton valider = (ImageButton) findViewById(R.id.btn_valider);
+        assert valider != null;
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,31 +45,28 @@ public class ConfigActivity extends AppCompatActivity {
                 String titre = txtTitre.getText().toString();
                 String msg = txtMsg.getText().toString();
 
-                if (titre != "" && msg != "") {
+                if (!Objects.equals(titre, "") && !Objects.equals(msg, "")) {
                     Message msg_connu = Message.findById(Message.class, 1);
                     if (msg_connu != null) {
                         msg_connu.setContenu(msg);
                         msg_connu.setTitre(titre);
-                        Toast.makeText(getApplicationContext(), "Connue " + msg_connu.getId(),
-                                Toast.LENGTH_SHORT).show();
                         msg_connu.save();
                     } else {
                         msg_connu = new Message(titre, msg, 1);
-                        Toast.makeText(getApplicationContext(), "Inconnue " + msg_connu.getId(),
-                                Toast.LENGTH_SHORT).show();
                         msg_connu.save();
                     }
 
                     Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
                     startActivity(secondeActivite);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Saisie incorrect",
+                    Toast.makeText(getApplicationContext(), "Saisie incorrecte",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         ImageButton conta = (ImageButton) findViewById(R.id.btn_contact);
+        assert conta != null;
         conta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +76,7 @@ public class ConfigActivity extends AppCompatActivity {
         });
 
         ImageButton histor = (ImageButton) findViewById(R.id.btn_historique);
+        assert histor != null;
         histor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

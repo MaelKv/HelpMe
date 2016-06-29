@@ -10,28 +10,31 @@ import java.util.List;
  * Created by Mael Chiaverini on 13/05/2016.
  */
 public class Historique extends SugarRecord {
-    List<Contact> contacts;
+    List<String> contacts;
     String titre;
     String message;
     Date date;
-    LatLng latlng;
+    double latitude;
+    double longitude;
+    Long id;
 
     public Historique(){}
 
-    public Historique(List<Contact> contacts, String titre, String msg, LatLng latlng)
+    public Historique(List<String> contacts, String titre, String msg, double latitude, double longitude)
     {
         this.contacts = contacts;
         this.titre = titre;
         this.message = msg;
         this.date = new Date();
-        this.latlng = latlng;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public List<Contact> getContacts() {
+    public List<String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(List<String> contacts) {
         this.contacts = contacts;
     }
 
@@ -59,11 +62,29 @@ public class Historique extends SugarRecord {
         this.date = date;
     }
 
-    public LatLng getLatlng() {
-        return latlng;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLatlng(LatLng latlng) {
-        this.latlng = latlng;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 }

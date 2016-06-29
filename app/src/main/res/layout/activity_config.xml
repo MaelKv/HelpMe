@@ -43,31 +43,30 @@
         android:layout_alignEnd="@+id/txt_titre" />
 
     <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/btn_valider"
-        android:layout_marginTop="69dp"
         android:background="@drawable/valid"
-        android:layout_below="@+id/txt_msg"
-        android:layout_toStartOf="@+id/btn_contact" />
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/txt_msg" />
 
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/btn_contact"
         android:background="@drawable/contact"
-        android:layout_alignTop="@+id/btn_valider"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentEnd="false"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp" />
+        android:layout_marginRight="40dp"
+        android:layout_alignTop="@+id/btn_historique"
+        android:layout_toEndOf="@+id/textView" />
 
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/btn_historique"
         android:background="@drawable/historique"
-        android:layout_alignTop="@+id/btn_contact"
-        android:layout_toEndOf="@+id/btn_contact" />
+        android:layout_marginTop="77dp"
+        android:layout_marginLeft="40dp"
+        android:layout_below="@+id/btn_valider"
+        android:layout_toStartOf="@+id/btn_valider" />
+
 </RelativeLayout>

@@ -14,13 +14,14 @@ import com.example.maelchiaverini.helpme.Activity.DetailHistoriqueActivity;
 import com.example.maelchiaverini.helpme.Classes.Historique;
 import com.example.maelchiaverini.helpme.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class HistoriqueAdaptater extends BaseAdapter {
     private Context mContext;
     private List<Historique> histolist;
-
-    public final static String IdHistorique = "IDhisto";
 
     //Constructeur
     public HistoriqueAdaptater(Context mContext, List<Historique> histolist) {
@@ -45,8 +46,14 @@ public class HistoriqueAdaptater extends BaseAdapter {
         TextView txt_historique_date = (TextView) v.findViewById(R.id.tvDateHisto);
         //SET
         if(histolist.get(position) != null) {
-            txt_historique_message.setText(histolist.get(position).getMessage());
-            txt_historique_date.setText(histolist.get(position).getDate().toString());
+            txt_historique_message.setText(histolist.get(position).getTitre() + "-" + histolist.get(position).getId());
+            Date d = histolist.get(position).getDate();
+
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy - k:mm");
+            String date = format.format(d);
+
+            //DateFormat dateFormat = (DateFormat) android.text.format.DateFormat.format("dd-MM-yyyy hh:mm:ss",new Date());
+            txt_historique_date.setText(date);
         }
         v.setTag(histolist.get(position).getId());
 
