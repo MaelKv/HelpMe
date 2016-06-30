@@ -33,6 +33,7 @@ public class AccueilActivity extends AppCompatActivity {
 
     private Activity activity;
     private final int MY_PERMISSIONS=1;
+    LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,7 @@ public class AccueilActivity extends AppCompatActivity {
                         }, MY_PERMISSIONS);
                         return;
                     }
-                    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    Location location = getLastKnownLocation();
                     double latitude = 0,longitude = 0;
                     if(location != null) {
                         latitude = location.getLatitude();
@@ -125,5 +125,28 @@ public class AccueilActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                bestLocation = l;
+            }
+        }
+        if (bestLocation == null) {
+            bestLocation = new Location("nolocation");
+            bestLocation.setLongitude(0);
+            bestLocation.setLatitude(0);
+        }
+        return bestLocation;
     }
 }
