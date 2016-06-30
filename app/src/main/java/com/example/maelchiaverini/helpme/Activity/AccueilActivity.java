@@ -49,8 +49,10 @@ public class AccueilActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Message message = Message.findById(Message.class, 1);
                 if (message != null) {
-                    if (ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                            && ActivityCompat.checkSelfPermission(AccueilActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(AccueilActivity.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(AccueilActivity.this,
+                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(activity, new String[]{
                                 android.Manifest.permission.READ_CONTACTS,
                                 android.Manifest.permission.ACCESS_FINE_LOCATION,
