@@ -28,7 +28,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DetailHistoriqueActivity extends AppCompatActivity {
+public class DetailHistoriqueActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    Historique histo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,9 @@ public class DetailHistoriqueActivity extends AppCompatActivity {
         TextView tvDate = (TextView) findViewById(R.id.tvDetDate);
         ListView listCont = (ListView) findViewById(R.id.ListDetCont);
         ImageButton btnRet = (ImageButton) findViewById(R.id.btnDetReturn);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 
-        Historique histo = Historique.findById(Historique.class, HistoriqueActivity.idH);
+        histo = Historique.findById(Historique.class, HistoriqueActivity.idH);
         if(histo != null) {
             assert tvTitre != null;
             tvTitre.setText(histo.getTitre());
@@ -52,6 +55,11 @@ public class DetailHistoriqueActivity extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy - k:mm");
             String date = format.format(d);
             tvDate.setText(date);
+
+            if (histo.getLongitude() != 0 && histo.getLatitude() != 0) {
+                mapFragment.getMapAsync(this);
+            }
+
 
             assert listCont != null;
             String[] conts = histo.getContacts().split(",");
@@ -72,5 +80,17 @@ public class DetailHistoriqueActivity extends AppCompatActivity {
                 startActivity(secondeActivite);
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng loc = new LatLng(histo.getLatitude(), histo.getLongitude());
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(loc)
+                .title("Help"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
     }
 }
