@@ -51,16 +51,23 @@
         android:id="@+id/ListDetCont"
         android:layout_alignTop="@+id/tv_Det_Contacts"
         android:layout_toEndOf="@+id/tv_Det_Contacts" />
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:map="http://schemas.android.com/apk/res-auto" android:layout_width="fill_parent"
-        android:layout_height="180dp" android:id="@+id/map"
-        tools:context=".Activity.DetailHistoriqueActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="false"
-        android:layout_below="@+id/ListDetCont" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/layout_map"
+        android:layout_below="@+id/ListDetCont"
+        android:layout_above="@+id/btnDetReturn">
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" android:id="@+id/map"
+            tools:context=".Activity.DetailHistoriqueActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="false"
+            android:layout_below="@+id/ListDetCont" />
+    </LinearLayout>
 
     <ImageButton
         android:layout_width="60dp"

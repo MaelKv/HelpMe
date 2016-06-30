@@ -38,6 +38,7 @@ public class DetailHistoriqueActivity extends AppCompatActivity implements OnMap
 
         TextView tvTitre = (TextView) findViewById(R.id.tvDetTitre);
         TextView tvMsg = (TextView) findViewById(R.id.tvDetMsg);
+        LinearLayout map = (LinearLayout) findViewById(R.id.layout_map);
         TextView tvDate = (TextView) findViewById(R.id.tvDetDate);
         ListView listCont = (ListView) findViewById(R.id.ListDetCont);
         ImageButton btnRet = (ImageButton) findViewById(R.id.btnDetReturn);
@@ -59,7 +60,6 @@ public class DetailHistoriqueActivity extends AppCompatActivity implements OnMap
             if (histo.getLongitude() != 0 && histo.getLatitude() != 0) {
                 mapFragment.getMapAsync(this);
             }
-
 
             assert listCont != null;
             String[] conts = histo.getContacts().split(",");
