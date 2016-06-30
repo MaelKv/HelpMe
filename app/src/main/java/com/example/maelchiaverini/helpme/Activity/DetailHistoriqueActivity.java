@@ -1,4 +1,3 @@
-
 package com.example.maelchiaverini.helpme.Activity;
 
 import android.content.Intent;
@@ -6,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,12 +23,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class DetailHistoriqueActivity extends AppCompatActivity /*implements OnMapReadyCallback*/ {
-    Historique histo;
-    ListView listCont;
+public class DetailHistoriqueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,36 +36,41 @@ public class DetailHistoriqueActivity extends AppCompatActivity /*implements OnM
 
         TextView tvTitre = (TextView) findViewById(R.id.tvDetTitre);
         TextView tvMsg = (TextView) findViewById(R.id.tvDetMsg);
-        TextView tvDate = (TextView) findViewById(R.id.tvDateTitre);
-        listCont = (ListView) findViewById(R.id.listViewCont);
+        TextView tvDate = (TextView) findViewById(R.id.tvDetDate);
+        ListView listCont = (ListView) findViewById(R.id.ListDetCont);
+        ImageButton btnRet = (ImageButton) findViewById(R.id.btnDetReturn);
 
-        histo = Historique.findById(Historique.class, 1);
+        Historique histo = Historique.findById(Historique.class, HistoriqueActivity.idH);
         if(histo != null) {
-            //LinearLayout map = (LinearLayout) findViewById(R.id.map);
-            //map.setVisibility(View.GONE);
-
             assert tvTitre != null;
             tvTitre.setText(histo.getTitre());
             assert tvMsg != null;
             tvMsg.setText(histo.getMessage());
             assert tvDate != null;
-            tvDate.setText(histo.getDate().toString());
+
+            Date d = histo.getDate();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy - k:mm");
+            String date = format.format(d);
+            tvDate.setText(date);
 
             assert listCont != null;
-            List<String> list;
-            list = histo.getContacts();
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.activity_item_historique, R.id.listViewCont, list);
+            String[] conts = histo.getContacts().split(",");
+            ArrayList<String> list = new ArrayList<>();
+            for(int i = 0; i < conts.length; i++)
+            {
+                list.add(conts[i]);
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_item_detail_contact, R.id.tv_cont_num, list);
             listCont.setAdapter(adapter);
-
-            //MapFragment mapFragment = (MapFragment ) getFragmentManager().findFragmentById(R.id.map);
-            //mapFragment.getMapAsync(this);
         }
+
+        assert btnRet != null;
+        btnRet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent secondeActivite = new Intent(DetailHistoriqueActivity.this, HistoriqueActivity.class);
+                startActivity(secondeActivite);
+            }
+        });
     }
-/*
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        LatLng lieu = new LatLng(histo.getLatitude(),histo.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(lieu));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lieu,16));
-    }*/
 }

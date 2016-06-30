@@ -46,13 +46,12 @@ public class HistoriqueAdaptater extends BaseAdapter {
         TextView txt_historique_date = (TextView) v.findViewById(R.id.tvDateHisto);
         //SET
         if(histolist.get(position) != null) {
-            txt_historique_message.setText(histolist.get(position).getTitre() + "-" + histolist.get(position).getId());
+            txt_historique_message.setText(histolist.get(position).getTitre());
             Date d = histolist.get(position).getDate();
 
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy - k:mm");
             String date = format.format(d);
 
-            //DateFormat dateFormat = (DateFormat) android.text.format.DateFormat.format("dd-MM-yyyy hh:mm:ss",new Date());
             txt_historique_date.setText(date);
         }
         v.setTag(histolist.get(position).getId());

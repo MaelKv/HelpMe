@@ -47,7 +47,8 @@
         android:layout_height="60dp"
         android:id="@+id/btn_valider"
         android:background="@drawable/valid"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/txt_msg"
         android:layout_alignEnd="@+id/txt_msg" />
 
     <ImageButton
@@ -64,7 +65,7 @@
         android:layout_height="40dp"
         android:id="@+id/btn_historique"
         android:background="@drawable/historique"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="38dp"
         android:layout_marginLeft="40dp"
         android:layout_below="@+id/btn_valider"
         android:layout_toStartOf="@+id/btn_valider" />

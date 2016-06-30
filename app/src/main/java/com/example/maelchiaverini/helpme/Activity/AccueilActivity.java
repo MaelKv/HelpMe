@@ -73,17 +73,23 @@ public class AccueilActivity extends AppCompatActivity {
                     List<Contact> contacts = Contact.listAll(Contact.class);
                     String test = "bla bla " + !contacts.isEmpty();
                     if (!contacts.isEmpty()) {
-                        List<String> listContact = new ArrayList<String>();
-                        String msg = String.format("%1$s\n%2$s\nhttps://www.google.fr/maps/@%3$s,%4$s,14z !", message.getTitre(), message.getContenu(), latitude, longitude);
+                        String listContact = "";
+                        String msg;
+                        if(latitude != 0.0 && longitude != 0.0) {
+                            msg = String.format("%1$s\n%2$s\nhttps://www.google.fr/maps/@%3$s,%4$s,14z !", message.getTitre(), message.getContenu(), latitude, longitude);
+                        }
+                        else{
+                            msg = String.format("%1$s\n%2$s", message.getTitre(), message.getContenu());
+                        }
                         for (Contact contact : contacts) {
                             if(contact.getValid()) {
                                 SmsManager.getDefault().sendTextMessage(contact.getNumero(), null,msg, null, null);
-                                listContact.add(contact.getNom() + " - " + contact.getNumero());
-                                Toast.makeText(getApplicationContext(), contact.getNom(),
+                                listContact=listContact+(contact.getNom() + " - " + contact.getNumero())+",";
+                                Toast.makeText(getApplicationContext(), latitude + " - " + longitude + " _ " + listContact,
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
-                        Historique histo = new Historique(listContact, message.getTitre(),message.getContenu(), latitude,longitude);
+                        Historique histo = new Historique(listContact, message.getTitre(),msg, latitude,longitude);
                         histo.save();
                         Toast.makeText(getApplicationContext(), "Message envoyé !",
                                 Toast.LENGTH_SHORT).show();

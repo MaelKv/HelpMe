@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Mael Chiaverini on 13/05/2016.
  */
 public class Historique extends SugarRecord {
-    List<String> contacts;
+    String contacts;
     String titre;
     String message;
     Date date;
@@ -20,7 +20,7 @@ public class Historique extends SugarRecord {
 
     public Historique(){}
 
-    public Historique(List<String> contacts, String titre, String msg, double latitude, double longitude)
+    public Historique(String contacts, String titre, String msg, double latitude, double longitude)
     {
         this.contacts = contacts;
         this.titre = titre;
@@ -30,11 +30,11 @@ public class Historique extends SugarRecord {
         this.longitude = longitude;
     }
 
-    public List<String> getContacts() {
+    public String getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<String> contacts) {
+    public void setContacts(String contacts) {
         this.contacts = contacts;
     }
 
