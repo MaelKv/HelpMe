@@ -32,8 +32,8 @@ import java.util.List;
 public class AccueilActivity extends AppCompatActivity {
 
     private Activity activity;
-    private final int MY_PERMISSIONS=1;
-    LocationManager mLocationManager;
+    private final int PERMISSIONS=1;
+    LocationManager mLoMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +63,10 @@ public class AccueilActivity extends AppCompatActivity {
                                 android.Manifest.permission.VIBRATE,
                                 android.Manifest.permission.INTERNET,
                                 android.Manifest.permission.SEND_SMS
-                        }, MY_PERMISSIONS);
+                        }, PERMISSIONS);
                         return;
                     }
-                    Location location = getLastKnownLocation();
+                    Location location = getLocation();
                     double latitude = 0,longitude = 0;
                     if(location != null) {
                         latitude = location.getLatitude();
@@ -87,8 +87,6 @@ public class AccueilActivity extends AppCompatActivity {
                             if(contact.getValid()) {
                                 SmsManager.getDefault().sendTextMessage(contact.getNumero(), null,msg, null, null);
                                 listContact=listContact+(contact.getNom() + " - " + contact.getNumero())+",";
-                                Toast.makeText(getApplicationContext(), latitude + " - " + longitude + " _ " + listContact,
-                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                         Historique histo = new Historique(listContact, message.getTitre(),msg, latitude,longitude);
@@ -129,26 +127,27 @@ public class AccueilActivity extends AppCompatActivity {
         });
     }
 
-    private Location getLastKnownLocation() {
-        mLocationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = mLocationManager.getProviders(true);
-        Location bestLocation = null;
+    private Location getLocation() {
+        mLoMan = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLoMan.getProviders(true);
+        Location theLocation = null;
         for (String provider : providers) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             }
-            Location l = mLocationManager.getLastKnownLocation(provider);
-            if (l == null) {
+            Location loc = mLoMan.getLastKnownLocation(provider);
+            if (loc == null) {
                 continue;
             }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                bestLocation = l;
+            if (theLocation == null || loc.getAccuracy() < theLocation.getAccuracy()) {
+                theLocation = loc;
             }
         }
-        if (bestLocation == null) {
-            bestLocation = new Location("nolocation");
-            bestLocation.setLongitude(0);
-            bestLocation.setLatitude(0);
+        if (theLocation == null) {
+            theLocation = new Location("nolocation");
+            theLocation.setLongitude(0);
+            theLocation.setLatitude(0);
         }
-        return bestLocation;
+        return theLocation;
     }
 }

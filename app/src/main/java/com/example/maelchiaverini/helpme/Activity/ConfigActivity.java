@@ -84,5 +84,15 @@ public class ConfigActivity extends AppCompatActivity {
                 startActivity(secondeActivite);
             }
         });
+
+        ImageButton returnBtn = (ImageButton) findViewById(R.id.btn_config_return);
+        assert returnBtn != null;
+        returnBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent secondeActivite = new Intent(ConfigActivity.this, AccueilActivity.class);
+                startActivity(secondeActivite);
+            }
+        });
     }
 }

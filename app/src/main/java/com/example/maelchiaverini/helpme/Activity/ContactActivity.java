@@ -40,14 +40,6 @@ public class ContactActivity extends AppCompatActivity {
         adaptater = new ContactAdaptater(getApplicationContext(), contactList);
         contactListView.setAdapter(adaptater);
 
-        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "test = "+view.getTag(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
         ImageButton btn_cont = (ImageButton) findViewById(R.id.imageButton);
         btn_cont.setOnClickListener(new View.OnClickListener(){
             @Override

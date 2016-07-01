@@ -42,7 +42,7 @@ public class DetailHistoriqueActivity extends AppCompatActivity implements OnMap
         TextView tvDate = (TextView) findViewById(R.id.tvDetDate);
         ListView listCont = (ListView) findViewById(R.id.ListDetCont);
         ImageButton btnRet = (ImageButton) findViewById(R.id.btnDetReturn);
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFrag);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFrag);
 
         histo = Historique.findById(Historique.class, HistoriqueActivity.idH);
         if(histo != null) {
@@ -57,8 +57,13 @@ public class DetailHistoriqueActivity extends AppCompatActivity implements OnMap
             String date = format.format(d);
             tvDate.setText(date);
 
+            assert map != null;
             if (histo.getLongitude() != 0.0 && histo.getLatitude() != 0.0) {
+                map.setVisibility(View.VISIBLE);
                 mapFragment.getMapAsync(this);
+            }
+            else{
+                map.setVisibility(View.GONE);
             }
 
             assert listCont != null;
